@@ -1,10 +1,10 @@
 package comamyflimflamkeykeep.httpsgithub.keykeep
 
 import android.app.Activity
-import android.app.LauncherActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import java.security.KeyPairGenerator
 
 
 class MainActivity : Activity(), View.OnClickListener {
@@ -19,10 +19,10 @@ class MainActivity : Activity(), View.OnClickListener {
 
         val button = findViewById<Button>(R.id.button_create_key)
         val list = findViewById<ListView>(R.id.listMain)
-        val x = listOf("hi", "hey", "wut", "woooo")
+        val x = listOf("")
         list.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, x)
 
-        button.text = "HEYO"
+        button.text = "generate key"
         button.setOnClickListener(ListViewThingo(this))
     }
 }
@@ -31,8 +31,13 @@ class ListViewThingo(activity: Activity) : View.OnClickListener {
     var act: Activity = activity
 
     override fun onClick(p0: View?) {
+        fun ClosedRange<Int>.random() =
+                java.util.Random().nextInt(endInclusive - start) +  start
+
+        val keyPair = KeyPairGenerator.getInstance("RSA").genKeyPair()
+
         val list = act.findViewById<ListView>(R.id.listMain)
-        val x = listOf("hi", "there")
+        val x = listOf(keyPair.private.toString())
         list.adapter = ArrayAdapter(act, android.R.layout.simple_list_item_1, x)
         list.deferNotifyDataSetChanged()
     }
