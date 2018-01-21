@@ -31,14 +31,17 @@ class ListViewThingo(activity: Activity) : View.OnClickListener {
     var act: Activity = activity
 
     override fun onClick(p0: View?) {
-        fun ClosedRange<Int>.random() =
-                java.util.Random().nextInt(endInclusive - start) +  start
-
-        val keyPair = KeyPairGenerator.getInstance("RSA").genKeyPair()
-
         val list = act.findViewById<ListView>(R.id.listMain)
-        val x = listOf(keyPair.private.toString())
+        val x = listOf(generateKey())
         list.adapter = ArrayAdapter(act, android.R.layout.simple_list_item_1, x)
         list.deferNotifyDataSetChanged()
     }
+}
+
+fun generateKey(): String {
+    fun ClosedRange<Int>.random() =
+            java.util.Random().nextInt(endInclusive - start) +  start
+
+    val keyPair = KeyPairGenerator.getInstance("RSA").genKeyPair()
+    return keyPair.private.toString()
 }
